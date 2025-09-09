@@ -1,6 +1,0 @@
--dontoptimize
--dontnote
--dontwarn
--keep class com.slc.ibop.** { *; }
--keep class androidx.** { *; }
--keep class com.google.android.material.** { *; }
