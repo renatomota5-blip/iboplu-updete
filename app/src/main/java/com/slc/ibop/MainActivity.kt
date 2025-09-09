@@ -30,8 +30,8 @@ fun Home() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("IBO Plus — base compatível com Android 15", style = MaterialTheme.typography.titleLarge)
+        Text("IBO Plus — compatível com Android 15", style = MaterialTheme.typography.titleLarge)
         Spacer(Modifier.height(12.dp))
-        Text("Projeto inicial sem bibliotecas nativas (.so). Adicione recursos aos poucos.")
+        Text("Projeto base sem bibliotecas nativas (.so).")
     }
 }
