@@ -1,7 +1,7 @@
 package com.slc.ibop
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.activity.ComponentActivity          // ✅ CORRETO
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
