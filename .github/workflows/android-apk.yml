@@ -26,14 +26,16 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      # Provisiona o Gradle 8.2 e habilita cache
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3.5.0
+      # Força Gradle 8.2 (evita usar Gradle 9.x que quebrou seu build)
+      - name: Setup Gradle 8.2
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: 8.2
 
-      # --- APK DEBUG (instalável sem assinatura de release) ---
+      # --- Build APK DEBUG (instalável sem assinatura release) ---
       - name: Build DEBUG APK
         run: |
-          gradle clean :app:assembleDebug
+          ./gradlew clean :app:assembleDebug
 
       - name: Upload DEBUG APK
         uses: actions/upload-artifact@v4
@@ -42,15 +44,14 @@ jobs:
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
 
-      # --- APK RELEASE (pode falhar se houver exigência de keystore) ---
+      # --- Opcional: Build Release APK ---
       - name: Build RELEASE APK
         run: |
-          gradle :app:assembleRelease
-        continue-on-error: true
+          ./gradlew clean :app:assembleRelease
 
-      - name: Upload RELEASE APK (se gerado)
+      - name: Upload RELEASE APK
         uses: actions/upload-artifact@v4
         with:
           name: IboPlus-release-apk
           path: app/build/outputs/apk/release/*.apk
-          if-no-files-found: ignore
+          if-no-files-found: warn
