@@ -1,0 +1,56 @@
+name: Android APK (gera .apk direto)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: gradle
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      # Provisiona o Gradle 8.2 e habilita cache
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3.5.0
+
+      # --- APK DEBUG (instalável sem assinatura de release) ---
+      - name: Build DEBUG APK
+        run: |
+          gradle clean :app:assembleDebug
+
+      - name: Upload DEBUG APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: IboPlus-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+
+      # --- APK RELEASE (pode falhar se houver exigência de keystore) ---
+      - name: Build RELEASE APK
+        run: |
+          gradle :app:assembleRelease
+        continue-on-error: true
+
+      - name: Upload RELEASE APK (se gerado)
+        uses: actions/upload-artifact@v4
+        with:
+          name: IboPlus-release-apk
+          path: app/build/outputs/apk/release/*.apk
+          if-no-files-found: ignore
