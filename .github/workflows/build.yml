@@ -1,0 +1,35 @@
+name: build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      # Opcional: usa o Gradle Wrapper do projeto se existir; senão, provisiona 8.2
+      - name: Build AAB with Gradle (no wrapper)
+        uses: gradle/actions/setup-gradle@v3.5.0
+      - run: |
+          /home/runner/gradle-installations/installs/gradle-8.2/bin/gradle clean :app:bundleRelease
+
+      - name: Upload AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-aab
+          path: app/build/outputs/bundle/release/*.aab
