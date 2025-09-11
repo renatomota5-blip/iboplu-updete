@@ -23,9 +23,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-        debug {
-            // se quiser, habilite configs específicas de debug aqui
-        }
     }
 
     compileOptions {
@@ -36,29 +33,18 @@ android {
         jvmTarget = "17"
     }
 
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.15"
-    }
+    buildFeatures { compose = true }
+    composeOptions { kotlinCompilerExtensionVersion = "1.5.15" }
 
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
+    packaging { resources { excludes += "/META-INF/{AL2.0,LGPL2.1}" } }
 }
 
 dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
-
-    // Compose BOM centraliza versões
     implementation(platform("androidx.compose:compose-bom:2024.06.00"))
     implementation("androidx.activity:activity-compose:1.9.2")
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-
     debugImplementation("androidx.compose.ui:ui-tooling")
 }
