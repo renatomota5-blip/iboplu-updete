@@ -14,8 +14,8 @@ dependencyResolutionManagement {
     }
 }
 
-// nome do projeto (pode ajustar se quiser mostrar outro nome no Gradle)
 rootProject.name = "iboplu-updete"
 
-// inclui o módulo app (sintaxe correta no Kotlin DSL)
+// inclui o módulo e força o diretório do projeto (evita o Gradle ignorar)
 include(":app")
+project(":app").projectDir = file("app")
