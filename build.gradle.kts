@@ -1,6 +1,9 @@
-buildscript {
-  repositories { google(); mavenCentral() }
-  dependencies { classpath "com.android.tools.build:gradle:8.5.2" }
+// build.gradle.kts (root) — Kotlin DSL
+
+plugins {
+    // vazio na raiz; plugins ficam no módulo :app
 }
-allprojects { repositories { google(); mavenCentral() } }
-tasks.register("clean", Delete) { delete rootProject.buildDir }
+
+tasks.register("clean", Delete::class) {
+    delete(layout.buildDirectory)
+}
