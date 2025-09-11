@@ -26,16 +26,33 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      # Provisiona o Gradle 8.2 (sem wrapper) e habilita cache
+      # Provisiona o Gradle 8.2 e habilita cache
       - name: Setup Gradle 8.2
         uses: gradle/actions/setup-gradle@v3.5.0
         with:
           gradle-version: 8.2
 
+      # Mostrar módulos e tasks disponíveis (ajuda a depurar)
+      - name: Show Gradle projects & tasks
+        shell: bash
+        run: |
+          if [ -x ./gradlew ]; then
+            ./gradlew projects
+            ./gradlew tasks --all
+          else
+            gradle projects
+            gradle tasks --all
+          fi
+
       # --- APK DEBUG ---
       - name: Build DEBUG APK
+        shell: bash
         run: |
-          gradle clean :app:assembleDebug
+          if [ -x ./gradlew ]; then
+            ./gradlew clean assembleDebug
+          else
+            gradle clean assembleDebug
+          fi
 
       - name: Upload DEBUG APK
         uses: actions/upload-artifact@v4
@@ -46,8 +63,13 @@ jobs:
 
       # --- APK RELEASE ---
       - name: Build RELEASE APK
+        shell: bash
         run: |
-          gradle clean :app:assembleRelease
+          if [ -x ./gradlew ]; then
+            ./gradlew clean assembleRelease
+          else
+            gradle clean assembleRelease
+          fi
 
       - name: Upload RELEASE APK
         uses: actions/upload-artifact@v4
