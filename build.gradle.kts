@@ -1,9 +1,4 @@
-// build.gradle.kts (root) — Kotlin DSL
-
 plugins {
-    // vazio na raiz; plugins ficam no módulo :app
-}
-
-tasks.register("clean", Delete::class) {
-    delete(layout.buildDirectory)
+    id("com.android.application") version "8.7.0" apply false
+    id("org.jetbrains.kotlin.android") version "1.9.24" apply false
 }
